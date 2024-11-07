@@ -7,7 +7,7 @@ const port = 3000;
 
 let list = []
 const server = http.createServer((req,res)=>{
-    // console.log(req.url);
+    console.log(req.url);
     // res.writeHead(200,{"content-type": "text/html"});
     let parsedURL = url.parse(req.url,true);
     switch(parsedURL.pathname){
@@ -19,6 +19,7 @@ const server = http.createServer((req,res)=>{
         break;
         case "/add": {
             let value = parsedURL.query.str;
+            console.log(value);
             list.push(value);
             res.write("str added successfully");
 
@@ -29,6 +30,7 @@ const server = http.createServer((req,res)=>{
             res.write(JSON.stringify(list));
         };
         break;
+        
         default: res.write("page not found") 
     }
     res.end()

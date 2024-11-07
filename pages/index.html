@@ -7,20 +7,39 @@
 </head>
 <body>
  <h1>Todo</h1>
-<form >
-    <label for="">enter your name</label>
-    <input type="text" id="name">
-    <input type="submit" id="button">
+<form onsubmit="submitHandler(event)">
+    <label for="">Enter your name</label>
+    <input type="text" name="string" id="string">
+    <input type="submit" value="add">
+</form>
+    <ol id="list">
+
+    </ol>
 
     <script>
-        let uname = []
+        async function submitHandler(e){
+            e.preventDefault();
+            let string = e.target.string.value;
+            let res = await fetch(`/add?str=${string}`);
+            let result = await res.json();
+            console.log(result);
+            display()
+        }
+
+        async function display(){
+            let res = await fetch("/get");
+            console.log(res);
+            let data = await res.json();
+            console.log(data);
+            let list = document.getElementById("list");
+            list.innerHTML = "";
+            data.forEach(e => {
+                list.innerHTML += `<li>${e} <button id="clear">remove</button></li><br>`;
+            })
+        }
         
-        let btn = document.getElementById("button")
-        .addEventListener("click",()=>{
-            
-        })
-         
+        display()
     </script>
-</form>
+
 </body>
 </html>
