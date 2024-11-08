@@ -30,6 +30,9 @@ const server = http.createServer((req,res)=>{
             res.write(JSON.stringify(list));
         };
         break;
+        case "/del":{
+            
+        }
         
         default: res.write("page not found") 
     }

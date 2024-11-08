@@ -4,14 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
  <h1>Todo</h1>
-<form onsubmit="submitHandler(event)">
+<div id="name"><form onsubmit="submitHandler(event)">
     <label for="">Enter your name</label>
     <input type="text" name="string" id="string">
     <input type="submit" value="add">
 </form>
+</div>
     <ol id="list">
 
     </ol>
@@ -37,6 +39,12 @@
                 list.innerHTML += `<li>${e} <button id="clear">remove</button></li><br>`;
             })
         }
+       async function del(index){
+             if(confirm("do you want to delete this")){
+             list = list.filter((i) => i != index)
+             display()
+             }}
+        
         
         display()
     </script>
