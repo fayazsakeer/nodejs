@@ -33,9 +33,26 @@
             console.log(data);
             let list = document.getElementById("list");
             list.innerHTML = "";
-            data.forEach(e => {
-                list.innerHTML += `<li>${e} <button id="clear">remove</button></li><br>`;
+            data.forEach((e,i) => {
+                list.innerHTML += `<li>${e} 
+                    <button onclick="edit(${i})">edit</button>
+                    <button onclick="del(${i})">delete</button>
+                    </li><br>`;
             })
+        }
+        async function edit(index){
+            let str = prompt("enter new str");
+            let res = await fetch(`/edit?str=${str}&index=${index}`);
+            let result = await res.json();
+            console.log(result);
+            
+        }
+        async function del(index){
+            let str = confirm("do you want to delete the item..?")
+            let res = await fetch(`/delete?index=${index}`);
+            let result = await res.json();
+            console.log(result);
+            display()
         }
         
         display()

@@ -5,7 +5,8 @@ const fs = require("fs")
 const port = 3000;
 
 
-let list = []
+let data = fs.readFileSync("./storage.json",{encoding:"utf8"});
+let list = JSON.parse(data.length == 0 ? "[]" : data)
 const server = http.createServer((req,res)=>{
     console.log(req.url);
     // res.writeHead(200,{"content-type": "text/html"});
@@ -21,14 +22,33 @@ const server = http.createServer((req,res)=>{
             let value = parsedURL.query.str;
             console.log(value);
             list.push(value);
-            res.write("str added successfully");
-
+            fs.writeFileSync("./storage.json",JSON.stringify(list))
+            res.writeHead(200,{"content-type": "application/json"});
+            res.write(JSON.stringify({ msg: "str added successfully"}));
         };
         break;
         case "/get": {
             res.writeHead(200,{"content-type": "application/json"});
             res.write(JSON.stringify(list));
         };
+        break;
+        case "/edit":{
+            let {str,index} = parsedURL.query;
+            list[index] = str;
+            fs.writeFileSync("./storage.json",JSON.stringify(list))
+            res.writeHead(200,{"content-type": "application/json"});
+            res.write(JSON.stringify({msg :"str edited succesfuly"}));
+
+        }
+        break;
+        case "/delete":{
+            let {str,index} = parsedURL.query;
+            list = list.filter((a,i)=> i != index)
+            fs.writeFileSync("./storage.json",JSON.stringify(list))
+            res.writeHead(200,{"content-type": "application/json"});
+            res.write(JSON.stringify({msg :"str deleted succesfuly"}));
+
+        }
         break;
         
         default: res.write("page not found") 
