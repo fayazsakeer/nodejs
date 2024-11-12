@@ -50,8 +50,7 @@ const server = http.createServer((req,res)=>{
 
         }
         break;
-        
-        default: res.write("page not found") 
+ default: res.write("page not found") 
     }
     res.end()
     
